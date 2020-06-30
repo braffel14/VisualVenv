@@ -4,6 +4,10 @@ import subprocess
 import tkinter as tk
 from tkinter import font
 import json
+from flask import Flask
+
+app = Flask(__name__)
+
 
 WIDTH = 1000
 HEIGHT = 700
@@ -15,6 +19,11 @@ script_dir = os.path.dirname(__file__)
 projectpath = ""
 
 
+@app.route("/")
+def index():
+    return "Hello, World!"
+
+
 def main():
     """Main method to run with GUI"""
     global projectpath
@@ -23,6 +32,7 @@ def main():
     projectpath = ""
 
 
+# to be removed
 class GUI(tk.Tk):
     """tkinter object that runs entire gui"""
 
@@ -43,6 +53,7 @@ class GUI(tk.Tk):
         self._frame.place(relwidth=1, relheight=1)
 
 
+# to be removed
 class StartPage(tk.Frame):
     """first page to be displayed on GUI startup"""
 
@@ -92,6 +103,7 @@ class StartPage(tk.Frame):
             alert.grid(row=1, column=2)
 
 
+# to be removed
 class CreateVenvPage(tk.Frame):
     """Page to be displayed if project does not have a venv"""
 
@@ -141,6 +153,7 @@ class CreateVenvPage(tk.Frame):
         self.parent.switch_frame(VenvPage)
 
 
+# to be removed
 class VenvPage(tk.Frame):
     """Page to be displayed to show venv information and manage packages"""
 
@@ -255,6 +268,7 @@ def jsonifypackages():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    app.run(debug=True)
     # climain()
 
