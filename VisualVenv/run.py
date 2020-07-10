@@ -4,7 +4,7 @@ import subprocess
 import tkinter as tk
 from tkinter import font
 import json
-from flask import Flask
+from flask import Flask, render_template, url_for, redirect, request
 
 app = Flask(__name__)
 
@@ -19,9 +19,24 @@ script_dir = os.path.dirname(__file__)
 projectpath = ""
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def index():
-    return "Hello, World!"
+
+    if request.method == "POST":
+        global projectpath
+        projectpath = request.form.get("path")
+
+        if path.exists(projectpath):
+            if checkforvenv(projectpath, script_dir):
+                # return redirect(url_for("viewvenv"))
+                print("show venv")
+            else:
+                # return redirect(url_for("createvenv"))
+                print("createvenv")
+        else:
+            return render_template("index.html", badpath=True)
+
+    return render_template("index.html")
 
 
 def main():

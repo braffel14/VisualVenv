@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block title %}VisualVenv{% endblock %} {% block content %}
+
+<h1 id='welcome'>Welcome to VisualVenv</h1>
+<p id='started'>Paste your project directory's absolute path to get started</p>
+
+<form action="" method="POST">
+    <input type="text" id="pathfield" name="path" placeholder="Enter filepath">
+    <button type="submit" class="startbutton">Open</button>
+</form>
+{% if badpath %}
+<p id="badpathalert">Path is invalid. Try Again. {% endif %} {% endblock %}
