@@ -63,3 +63,34 @@ body {
     line-height: 35px;
     color: #ca4343;
 }
+
+#newtext {
+    position: absolute;
+    width: 372px;
+    height: 55px;
+    left: 41px;
+    top: 41px;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 50px;
+    line-height: 59px;
+    color: #000000;
+}
+
+#newvenvbutton {
+    position: absolute;
+    width: 289px;
+    height: 76px;
+    left: 355px;
+    top: 312px;
+    background: #aeaeae;
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 47px;
+    text-align: center;
+}

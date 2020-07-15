@@ -26,17 +26,33 @@ def index():
         global projectpath
         projectpath = request.form.get("path")
 
-        if path.exists(projectpath):
-            if checkforvenv(projectpath, script_dir):
+        if path.exists(projectpath):  # checks that directory at path exists
+            if checkforvenv(
+                projectpath, script_dir
+            ):  # checks if there is a venv at that path or not
                 # return redirect(url_for("viewvenv"))
                 print("show venv")
-            else:
-                # return redirect(url_for("createvenv"))
+            else:  # calls for creation of new venv at that path
                 print("createvenv")
-        else:
+                return redirect(url_for("createvenv", projectpath=projectpath))
+
+        else:  # warns user path does not exist
             return render_template("index.html", badpath=True)
 
     return render_template("index.html")
+
+
+@app.route("/newvenv", methods=["GET", "POST"])
+def createvenv():
+    global projectpath
+    if request.method == "POST":
+
+        print(projectpath)
+        createNewVenv(projectpath, script_dir)
+        print("created")
+        # return redirect(url_for("createvenv"))
+
+    return render_template("new.html")
 
 
 def main():
@@ -189,6 +205,7 @@ class VenvPage(tk.Frame):
 
 def climain():
     """Main method to run through command line interface"""
+    global script_dir
 
     # get filepath of project and save to text file
     print("Enter filepath for project")
@@ -270,7 +287,8 @@ def jsonifypackages():
             if line != "Package    Version\n" and line != "---------- -------\n":
                 # remove formatting of text file
                 splitline = line.split(" ")
-                splitline.remove("\n")
+                if "\n" in splitline:
+                    splitline.remove("\n")
                 while "" in splitline:
                     splitline.remove("")
                 # add package to packages dict
@@ -284,6 +302,6 @@ def jsonifypackages():
 
 if __name__ == "__main__":
     # main()
-    app.run(debug=True)
-    # climain()
+    # app.run(debug=True)
+    climain()
 
