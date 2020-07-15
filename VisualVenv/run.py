@@ -220,7 +220,6 @@ def climain():
         if createresponse == "y":
             createNewVenv(projectpath, script_dir)
 
-
 def createNewVenv(projectpath, script_dir):
     try:
         subprocess.call(
@@ -236,27 +235,21 @@ def createNewVenv(projectpath, script_dir):
 
 
 def getpackages(projectpath, script_dir):
-    """Generates txt file and json file of packages installed in specified path"""
-
     getInstalledTxt(projectpath, script_dir)
     jsonifypackages()
 
 
 def checkforvenv(projectpath, script_dir):
-    """checks specified folder to see if there is a venv there"""
-
     return path.exists(os.path.join(projectpath, "venv"))
 
 
 def getInstalledTxt(projectpath, script_dir):
-    """Takes a filepath to a Python project and runs a shell script to generate a text file of that project's
-     venv's installed packages
-    """
+    """Takes a filepath to a Python project and runs a shell script to generate a text file of that project's venv's installed packages"""
 
     savepath = os.path.join(script_dir, "../tempfiles/installed.txt")
     # call script to get installed packages
     try:
-        subprocess.call(
+        cmd = subprocess.call(
             [
                 str(os.path.join(script_dir, "../bin/getpackages.sh")),
                 projectpath,
@@ -272,9 +265,7 @@ def getInstalledTxt(projectpath, script_dir):
 
 
 def jsonifypackages():
-
     """gets generated text file of packages from the getpackages.sh script and creates a json file of packages"""
-
     txtpath = os.path.join(script_dir, "../tempfiles/installed.txt")
     jsonpath = os.path.join(script_dir, "../tempfiles/installed.json")
     packagesdict = {}
@@ -284,15 +275,16 @@ def jsonifypackages():
         lines = txt.readlines()
         for line in lines:
             # filter out header lines of package textfile
-            if line != "Package    Version\n" and line != "---------- -------\n":
-                # remove formatting of text file
-                splitline = line.split(" ")
-                if "\n" in splitline:
-                    splitline.remove("\n")
-                while "" in splitline:
-                    splitline.remove("")
-                # add package to packages dict
-                packagesdict[splitline[0]] = splitline[1]
+            if line != "Package    Version  \n":
+                if line != '---------- ---------\n':
+                    # remove formatting of text file
+                    splitline = line.split(" ")
+                    if '\n' in splitline:
+                        splitline.remove('\n')
+                    while "" in splitline:
+                        splitline.remove("")
+                    # add package to packages dict
+                    packagesdict[splitline[0]] = splitline[1]
         with open(jsonpath, "w") as json_file:
             json.dump(packagesdict, json_file)
     finally:
@@ -302,6 +294,6 @@ def jsonifypackages():
 
 if __name__ == "__main__":
     # main()
-    # app.run(debug=True)
-    climain()
+    app.run(debug=True)
+    #climain()
 
